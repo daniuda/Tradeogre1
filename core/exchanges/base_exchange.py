@@ -7,10 +7,10 @@ class BaseExchange(ABC):
     
     @abstractmethod
     def get_prices(self):
-        """Returnează un dicționar cu prețurile"""
+        """Fetch current prices"""
         pass
     
     @abstractmethod
-    def get_balance(self):
-        """Returnează balanța utilizatorului"""
+    def run(self, notifier):
+        """Main monitoring loop"""
         pass
