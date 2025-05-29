@@ -1,3 +1,4 @@
+from core.exchange_manager import ExchangeManager
 import threading
 import time
 from web.app import app
@@ -50,6 +51,20 @@ class TradeMonitor:
             except Exception as e:
                 logger.error(f"Monitor error: {e}")
                 time.sleep(min(60, Config.POLL_INTERVAL * 2))  # Backoff
+
+from core.exchange_manager import ExchangeManager
+
+# Inițializare
+exchange_manager = ExchangeManager()
+monitors = [
+    exchange_manager.get_exchange('tradeogre'),
+    exchange_manager.get_exchange('binance', api_key='...'),
+    exchange_manager.get_exchange('kraken')
+]
+
+# Pornire thread-uri
+for monitor in monitors:
+    threading.Thread(target=monitor.run).start()
 
 def run_flask():
     """Run Flask web server"""
