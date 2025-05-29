@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>VTC/USDT Transactions</h1>
+    
+    <div class="filters">
+        <form method="get" action="/">
+            <div class="filter-group">
+                <label>Min Volume (VTC):</label>
+                <input type="number" name="min_volume" value="{{ filters.min_volume|default('', true) }}" step="0.0001">
+            </div>
+            
+            <div class="filter-group">
+                <label>Min USD Value:</label>
+                <input type="number" name="min_usd" value="{{ filters.min_usd|default('', true) }}" step="0.01">
+            </div>
+            
+            <button type="submit">Apply Filters</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Price (USDT)</th>
+                <th>Amount (VTC)</th>
+                <th>Value (USD)</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trade in trades %}
+            <tr>
+                <td>{{ "%.8f"|format(trade.price) }}</td>
+                <td>{{ "%.4f"|format(trade.quantity) }}</td>
+                <td>{{ "%.2f"|format(trade.price * trade.quantity) }}</td>
+                <td>{{ trade.timestamp }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No trades found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
