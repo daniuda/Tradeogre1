@@ -23,6 +23,9 @@ class Config:
     # Logging
     LOG_FILE = "vtc_monitor.log"
 
+    PROBIT_API_KEY = ""  # Completează în .env
+    PROBIT_API_SECRET = ""  # Tratează ca informație sensibilă!
+
     @classmethod
     def verify(cls):
         if not cls.TELEGRAM_BOT_TOKEN:

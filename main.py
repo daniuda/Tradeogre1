@@ -66,6 +66,19 @@ monitors = [
 for monitor in monitors:
     threading.Thread(target=monitor.run).start()
 
+exchange_manager = ExchangeManager()
+monitors = [
+    exchange_manager.get_exchange('tradeogre'),
+    exchange_manager.get_exchange('probit', 
+        api_key=Config.PROBIT_API_KEY,
+        api_secret=Config.PROBIT_API_SECRET)
+for monitor in monitors:
+    threading.Thread(
+        target=monitor.run,
+        daemon=True,
+        name=f"Monitor_{monitor.__class__.__name__}"
+    ).start()
+
 def run_flask():
     """Run Flask web server"""
     try:
